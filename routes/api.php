@@ -1,11 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\AuthController;
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
-Route::get('/product', [ProductController::class, 'index']);
-Route::get('/product/{id}', [ProductController::class, 'show']);
-Route::post('/product', [ProductController::class, 'store']);
-Route::put('/product/{id}', [ProductController::class, 'update']);
-Route::delete('/product/{id}', [ProductController::class, 'destroy']);
+Route::middleware('auth:api')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'me']);
+
+    // Admin-only
+    Route::get('/admin/dashboard', function () {
+        return response()->json(['message' => 'Welcome Admin']);
+    })->middleware('role:admin');
+
+    // Customer-only
+    Route::get('/customer/area', function () {
+        return response()->json(['message' => 'Welcome Customer']);
+    })->middleware('role:customer');
+});
+
