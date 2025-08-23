@@ -2,10 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FavouriteController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:api')->group(function () {
@@ -21,6 +22,10 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/customer/area', function () {
         return response()->json(['message' => 'Welcome Customer']);
     })->middleware('role:customer');
+
+    Route::post('/favourite/{product_id}', [FavouriteController::class, 'addToFavourites']);
+    Route::delete('/favourite/{product_id}', [FavouriteController::class, 'removeFromFavourites']);
+    Route::get('/favourite', [FavouriteController::class, 'getFavourites']);
 });
 
 

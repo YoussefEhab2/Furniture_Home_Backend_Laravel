@@ -15,6 +15,7 @@ class AuthController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|unique:users',
             'password' => 'required|string|min:6',
+            'phone' => 'required|string|min:11|max:11',
             'role'     => 'nullable|in:admin,customer',
         ]);
 
@@ -22,6 +23,7 @@ class AuthController extends Controller
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
+            'phone'    => $request->phone,
             'role'     => $request->role ?? 'customer', // default
         ]);
 
