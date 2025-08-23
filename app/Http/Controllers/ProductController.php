@@ -7,17 +7,13 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        return Product::all();
+       return Product::with('category')->get();
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+   
     public function store(Request $request)
     {
         $validate=$request->validate([
@@ -25,22 +21,18 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'discount' => 'required|integer|min:0',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|integer|exists:category,id',
         ]);
         return Product::create($validate);
     }
 
-    /**
-     * Display the specified resource.
-     */
+  
     public function show($id)
     {
-       return Product::findOrFail($id);
+       return Product::with('category')->findOrFail($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+   
     public function update(Request $request, string $id)
     {
         $product = Product::findOrFail($id);
@@ -49,15 +41,13 @@ class ProductController extends Controller
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'discount' => 'required|integer|min:0',
-            'category' => 'required|string|max:255',
+            'category_id' => 'required|integer|exists:category,id',
         ]);
         $product->update($validate);
         return $product;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   
     public function destroy(string $id)
     {
         $product = Product::findOrFail($id);
