@@ -50,4 +50,12 @@ class CategoryController extends Controller
         $category->delete();
         return response()->json(['message' => 'Category deleted successfully']);
     }
+
+    public function getProducts($id)
+{
+    // Find the category by id with its products
+    $category = Category::with('products')->findOrFail($id);
+
+    return response()->json($category->products);
+}
 }
