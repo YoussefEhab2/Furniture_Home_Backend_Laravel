@@ -27,8 +27,8 @@ class Category extends Model
 		'name'
 	];
 
-	public function product()
-	{
-		return $this->hasOne(Product::class);
-	}
+	public function products()
+{
+    return $this->hasMany(Product::class, 'category_id');
+}
 }
