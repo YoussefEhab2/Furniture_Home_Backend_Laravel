@@ -88,7 +88,7 @@ class User extends Authenticatable implements JWTSubject
 
 	public function enquiry()
 	{
-		return $this->hasOne(Enquiry::class, 'customer_id');
+		return $this->hasMany(Enquiry::class, 'customer_id');
 	}
 
 	public function favourites()
@@ -98,11 +98,11 @@ class User extends Authenticatable implements JWTSubject
 
 	public function order()
 	{
-		return $this->hasOne(Order::class, 'customer_id');
+		return $this->hasMany(Order::class, 'customer_id');
 	}
 
 	public function review()
 	{
-		return $this->hasOne(Review::class, 'customer_id');
+		return $this->hasMany(Review::class, 'customer_id');
 	}
 }
