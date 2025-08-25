@@ -20,8 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property Carbon $date
  * 
  * @property User $user
- * @property Collection|OrderItem[] $order_items
- * @property OrderStateChange|null $order_state_change
+ * @property OrderItem|null $order_item
+ * @property Collection|OrderStateChange[] $order_state_changes
  *
  * @package App\Models
  */
@@ -48,13 +48,13 @@ class Order extends Model
 		return $this->belongsTo(User::class, 'customer_id');
 	}
 
-	public function order_items()
+	public function order_item()
 	{
-		return $this->hasMany(OrderItem::class);
+		return $this->hasOne(OrderItem::class);
 	}
 
-	public function order_state_change()
+	public function order_state_changes()
 	{
-		return $this->hasOne(OrderStateChange::class);
+		return $this->hasMany(OrderStateChange::class);
 	}
 }

@@ -25,14 +25,14 @@ class Favourite extends Model
 	public $incrementing = false;
 	public $timestamps = false;
 
-	protected $fillable = [
-        'customer_id',
-        'product_id'
-    ];
-	
 	protected $casts = [
 		'product_id' => 'int',
 		'customer_id' => 'int'
+	];
+
+	protected $fillable = [
+		'product_id',
+		'customer_id'
 	];
 
 	public function product()

@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $id
  * @property string $name
  * 
- * @property Product|null $product
+ * @property Collection|Product[] $products
  *
  * @package App\Models
  */
@@ -28,7 +29,7 @@ class Category extends Model
 	];
 
 	public function products()
-{
-    return $this->hasMany(Product::class, 'category_id');
-}
+	{
+		return $this->hasMany(Product::class);
+	}
 }
