@@ -6,7 +6,6 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $total_no_of_items
  * @property float $total_price
  * 
- * @property Collection|Cartitem[] $cartitems
+ * @property Cartitem|null $cartitem
  * @property User|null $user
  *
  * @package App\Models
@@ -36,9 +35,9 @@ class Cart extends Model
 		'total_price'
 	];
 
-	public function cartitems()
+	public function cartitem()
 	{
-		return $this->hasMany(Cartitem::class);
+		return $this->hasOne(Cartitem::class);
 	}
 
 	public function user()

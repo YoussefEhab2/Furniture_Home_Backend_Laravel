@@ -20,11 +20,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $discount
  * 
  * @property Category $category
- * @property Collection|Cartitem[] $cartitems
- * @property Collection|Favourite[] $favourites
- * @property Image|null $image
- * @property Collection|OrderItem[] $order_items
- * @property Review|null $review
+ * @property Cartitem|null $cartitem
+ * @property Favourite|null $favourite
+ * @property Collection|Image[] $images
+ * @property OrderItem|null $order_item
+ * @property Collection|Review[] $reviews
  *
  * @package App\Models
  */
@@ -52,28 +52,28 @@ class Product extends Model
 		return $this->belongsTo(Category::class);
 	}
 
-	public function cartitems()
+	public function cartitem()
 	{
-		return $this->hasMany(Cartitem::class);
+		return $this->hasOne(Cartitem::class);
 	}
 
-	public function favourites()
+	public function favourite()
 	{
-		return $this->hasMany(Favourite::class);
+		return $this->hasOne(Favourite::class);
 	}
 
-	public function image()
+	public function images()
 	{
-		return $this->hasOne(Image::class);
+		return $this->hasMany(Image::class);
 	}
 
-	public function order_items()
+	public function order_item()
 	{
-		return $this->hasMany(OrderItem::class);
+		return $this->hasOne(OrderItem::class);
 	}
 
-	public function review()
+	public function reviews()
 	{
-		return $this->hasOne(Review::class);
+		return $this->hasMany(Review::class);
 	}
 }
