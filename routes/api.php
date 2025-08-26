@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CartController;
+
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
@@ -32,7 +34,11 @@ Route::middleware('auth:api')->group(function () {
         return response()->json(['message' => 'Welcome Customer']);
     })->middleware('role:customer');
     Route::post('/review/{product_id}', [ReviewController::class, 'store'])->middleware('role:customer');
-    
+
+    Route::post('/cart/{product_id}', [CartController::class, 'addToCart'])->middleware('role:customer');
+    Route::delete('/cart/{product_id}', [CartController::class, 'removeFromCart'])->middleware('role:customer');
+    Route::put('/cart/{product_id}', [CartController::class, 'editItem'])->middleware('role:customer');
+
     //
     Route::post('/favourite/{product_id}', [FavouriteController::class, 'addToFavourites']);
     Route::delete('/favourite/{product_id}', [FavouriteController::class, 'removeFromFavourites']);
