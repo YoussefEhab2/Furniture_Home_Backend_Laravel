@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -19,12 +20,20 @@ class AuthController extends Controller
             'role'     => 'nullable|in:admin,customer',
         ]);
 
+        if ($request->role == 'customer') {
+            $cart = Cart::create([
+                'total_no_of_items' => 0,
+                'total_price' => 0
+            ]);
+        }
+
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
             'password' => Hash::make($request->password),
             'phone'    => $request->phone,
             'role'     => $request->role ?? 'customer', // default
+            'cart_id'  => $request->role == 'customer' ? $cart->id : null,
         ]);
 
         $token = auth('api')->login($user);
