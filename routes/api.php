@@ -7,6 +7,7 @@ use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrderController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -27,7 +28,10 @@ Route::middleware('auth:api')->group(function () {
 
     Route::post('/categories', [CategoryController::class, 'store'])->middleware('role:admin');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->middleware('role:admin');
-    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->middleware('role:admin');    
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->middleware('role:admin');   
+    
+    Route::delete('/order/{orderId}', action: [OrderController::class, 'deleteOrder'])->middleware('role:admin');
+    Route::post('/order/{orderId}', action: [OrderController::class, 'changeOrderState'])->middleware('role:admin');
     // Customer-only
 
     Route::get('/customer/area', function () {
@@ -38,6 +42,12 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/cart/{product_id}', [CartController::class, 'addToCart'])->middleware('role:customer');
     Route::delete('/cart/{product_id}', [CartController::class, 'removeFromCart'])->middleware('role:customer');
     Route::put('/cart/{product_id}', [CartController::class, 'editItem'])->middleware('role:customer');
+    Route::get('/cart', [CartController::class, 'getCartItems'])->middleware('role:customer');
+
+    Route::post('/order', action: [OrderController::class, 'checkout'])->middleware('role:customer');
+    Route::get('/order/{orderId}', action: [OrderController::class, 'getOrder'])->middleware('role:customer');
+    Route::get('/order', action: [OrderController::class, 'getOrders'])->middleware('role:customer');
+    Route::get('/order/{orderId}/history', action: [OrderController::class, 'getOrderHistory'])->middleware('role:customer');
 
     //
     Route::post('/favourite/{product_id}', [FavouriteController::class, 'addToFavourites']);
