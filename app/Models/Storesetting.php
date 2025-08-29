@@ -39,5 +39,5 @@ class Storesetting extends Model
 		'whatsapp_no',
 		'phone_no',
 		'second_phone_no'
-	];
+	];	
 }

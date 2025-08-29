@@ -8,9 +8,11 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\EnquiryController;
+use App\Http\Controllers\StoreSettingController;
+use App\Http\Controllers\UserController;
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::middleware('auth:api')->group(function () {
@@ -74,3 +76,24 @@ Route::get('/categories/{id}/products', [CategoryController::class, 'getProducts
 
 
 
+
+Route::post('/enquiries', [EnquiryController::class, 'store']);
+Route::get('/enquiries', [EnquiryController::class, 'index'])->middleware('role:admin');
+
+
+Route::patch('/enquiries/{id}/hide', [EnquiryController::class, 'hide'])  ->middleware('role:admin');
+
+
+Route::patch('/platform/{id}', [StoreSettingController::class, 'update'])
+    ->middleware( 'role:admin');
+
+Route::get('/platform', [StoreSettingController::class, 'show']);
+
+Route::get('/terms/{id}', [StoreSettingController::class, 'showTerms']);
+
+
+
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('/profile',[UserController::class, 'updateProfile']);
+});
